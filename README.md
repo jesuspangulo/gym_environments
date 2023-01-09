@@ -5,14 +5,14 @@
 # Installation
 
 ```bash
-pip install https://github.com/jesuspangulo/gym_envs/archive/refs/heads/main.zip
+pip install https://github.com/jesuspangulo/gym_environments/archive/refs/heads/main.zip
 ```
 
 # Basic Usage
 
 ```python
 import gym
-import gym_envs
+import gym_environments
 
 env = gym.make('TwoArmedBandit-v0')
 ```
