@@ -5,7 +5,7 @@ import gym
 from gym import spaces
 import pygame
 
-import .settings
+from . import settings
 
 
 class Arm:
