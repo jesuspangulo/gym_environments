@@ -5,14 +5,14 @@ import pygame
 BASE_DIR = pathlib.Path(__file__).parent
 
 TEXTURES = {
-    'machine': pygame.image.load(BASE_DIR / "graphics" / "slot-machine.png"),
-    'arrow': pygame.image.load(BASE_DIR / "graphics" / "up_arrow.png")
+    'machine': pygame.image.load(BASE_DIR / "assets" / "graphics" / "slot-machine.png"),
+    'arrow': pygame.image.load(BASE_DIR / "assets" / "graphics" / "up_arrow.png")
 }
 
 pygame.font.init()
 
 FONTS = {
-    'large': pygame.font.Font(BASE_DIR / "fonts" / "font.ttf", 64)
+    'large': pygame.font.Font(BASE_DIR / "assets" / "fonts" / "font.ttf", 64)
 }
 
 MACHINE_WIDTH, MACHINE_HEIGHT = TEXTURES['machine'].get_size()
