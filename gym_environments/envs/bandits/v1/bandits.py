@@ -27,6 +27,7 @@ class TwoArmedBanditEnv(gym.Env):
         pygame.display.init()
         self.window = pygame.display.set_mode(
             (settings.WINDOW_WIDTH, settings.WINDOWS_HEIGHT))
+        pygame.display.set_caption("Two-Armed Bandit Environment")
         self.action = None
         self.reward = None
 
