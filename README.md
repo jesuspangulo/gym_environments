@@ -1,6 +1,8 @@
 # Custom Gym Environments
 
 - TwoArmedBandit-v0
+- TwoArmedBandit-v1
+- RobotBattery-v0
 
 # Installation
 
