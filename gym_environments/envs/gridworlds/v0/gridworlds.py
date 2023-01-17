@@ -24,9 +24,9 @@ class RobotBatteryEnv(gym.Env):
 
     def step(self, action):
         self.action = action
-        self.state = self.P[self.state][action][0][1]
         self.reward = self.P[self.state][action][0][2]
         terminated = self.P[self.state][action][0][3]
+        self.state = self.P[self.state][action][0][1]
         return self.state, self.reward, terminated, False, {}
 
     def render(self, mode='human', close=False):
