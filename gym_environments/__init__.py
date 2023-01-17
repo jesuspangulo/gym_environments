@@ -9,3 +9,8 @@ register(
     id='TwoArmedBandit-v1',
     entry_point='gym_environments.envs:TwoArmedBanditEnvV1',
 )
+
+register(
+    id='RobotBattery-v0',
+    entry_point='gym_environments.envs:RobotBatteryEnvV0',
+)
