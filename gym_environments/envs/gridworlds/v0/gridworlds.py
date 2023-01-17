@@ -3,7 +3,7 @@ import gym
 
 class RobotBatteryEnv(gym.Env):
 
-    def __init__(self):
+    def __init__(self, render_mode=None):
         super(RobotBatteryEnv, self).__init__()
         self.action_space = gym.spaces.Discrete(4)
         self.observation_space = gym.spaces.Discrete(6)
