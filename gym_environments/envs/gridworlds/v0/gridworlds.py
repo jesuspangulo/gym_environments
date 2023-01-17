@@ -18,7 +18,7 @@ class RobotBatteryEnv(gym.Env):
     def reset(self, seed=None, options=None):
         super().reset(seed=seed)
         self.action = 0
-        self.reward = 0
+        self.reward = 0.0
         self.state = 0
         return self.state, {}
 
