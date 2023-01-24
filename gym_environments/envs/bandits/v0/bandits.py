@@ -5,7 +5,7 @@ import gym
 class TwoArmedBanditEnv(gym.Env):
 
     def __init__(self):
-        super(TwoArmedBanditEnv, self).__init__()
+        super().__init__()
         self.action_space = gym.spaces.Discrete(2)
         self.observation_space = gym.spaces.Discrete(1)
         self.reset()

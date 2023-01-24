@@ -19,6 +19,7 @@ class Arm:
 
 class TwoArmedBanditEnv(gym.Env):
     def __init__(self):
+        super().__init__()
         self.delay = 0.5
         self.arms = (Arm(0.5, 1), Arm(0.1, 100))
         self.observation_space = spaces.Discrete(1)
@@ -41,7 +42,7 @@ class TwoArmedBanditEnv(gym.Env):
         super().reset(seed=seed)
 
         if options is not None:
-            if type(options) is not dict:
+            if not isinstance(options, dict):
                 raise RuntimeError("Variable options is not a dictionary")
             self.delay = options.get('delay', 0.5)
 

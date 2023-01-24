@@ -1,17 +1,21 @@
+import time
+
 import numpy as np
+
 import gym
+
 
 class RobotBatteryEnv(gym.Env):
 
     def __init__(self, render_mode=None):
-        super(RobotBatteryEnv, self).__init__()
+        super().__init__()
         self.action_space = gym.spaces.Discrete(4)
         self.observation_space = gym.spaces.Discrete(6)
-        self.P = {0: {0: [(0, 0, 0.0, False)], 1: [(1, 2, 0.0, False)], 2: [(1, 1, 0.0, False)], 3: [(0, 0, 0.0, False)]}, \
-                  1: {0: [(1, 0, 0.0, False)], 1: [(1, 3, 0.0, False)], 2: [(0, 1, 0.0, False)], 3: [(0, 1, 0.0, False)]}, \
-                  2: {0: [(0, 2, 0.0, False)], 1: [(1, 4, 0.0, False)], 2: [(1, 3, 0.0, False)], 3: [(1, 0, 0.0, False)]}, \
-                  3: {0: [(1, 2, 0.0, False)], 1: [(1, 5, 1.0, True)], 2: [(0, 3, 0.0, False)], 3: [(1, 1, 0.0, False)]}, \
-                  4: {0: [(0, 4, 0.0, False)], 1: [(0, 4, 0.0, False)], 2: [(1, 5, 1.0, True)], 3: [(1, 2, 0.0, False)]}, \
+        self.P = {0: {0: [(0, 0, 0.0, False)], 1: [(1, 2, 0.0, False)], 2: [(1, 1, 0.0, False)], 3: [(0, 0, 0.0, False)]},
+                  1: {0: [(1, 0, 0.0, False)], 1: [(1, 3, 0.0, False)], 2: [(0, 1, 0.0, False)], 3: [(0, 1, 0.0, False)]},
+                  2: {0: [(0, 2, 0.0, False)], 1: [(1, 4, 0.0, False)], 2: [(1, 3, 0.0, False)], 3: [(1, 0, 0.0, False)]},
+                  3: {0: [(1, 2, 0.0, False)], 1: [(1, 5, 1.0, True)], 2: [(0, 3, 0.0, False)], 3: [(1, 1, 0.0, False)]},
+                  4: {0: [(0, 4, 0.0, False)], 1: [(0, 4, 0.0, False)], 2: [(1, 5, 1.0, True)], 3: [(1, 2, 0.0, False)]},
                   5: {0: [(1, 5, 0.0, True)], 1: [(0, 5, 0.0, True)], 2: [(0, 5, 0.0, True)], 3: [(0, 5, 0.0, True)]}}
         self.reset()
 
@@ -27,7 +31,13 @@ class RobotBatteryEnv(gym.Env):
         self.reward = self.P[self.state][action][0][2]
         terminated = self.P[self.state][action][0][3]
         self.state = self.P[self.state][action][0][1]
+        self.render()
+        time.sleep(0.25)
         return self.state, self.reward, terminated, False, {}
 
-    def render(self, mode='human', close=False):
-        print("Action {}, reward {}, state {}".format(self.action, self.reward, self.state))
+    def render(self):
+        print(
+            "Action {}, reward {}, state {}".format(
+                self.action,
+                self.reward,
+                self.state))

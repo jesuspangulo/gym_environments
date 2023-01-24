@@ -1,2 +1,3 @@
 include gym_environments/envs/bandits/v1/assets/fonts/*
 include gym_environments/envs/bandits/v1/assets/graphics/*
+include gym_environments/envs/gridworlds/v2/frozen_lake/assets/graphics/*
