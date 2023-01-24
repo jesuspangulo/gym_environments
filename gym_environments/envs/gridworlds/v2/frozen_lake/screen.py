@@ -35,7 +35,9 @@ class Screen:
         tile_texture_names[self.finish_state] = "ice"
         self.tilemap = TileMap(num_tiles, tile_texture_names)
 
-    def reset(self):
+    def reset(self, state, action):
+        self.state = state
+        self.action = action
         self.tilemap.tiles[self.finish_state].texture_name = "ice"
 
     def update(self, state, action, reward, terminated):
@@ -50,11 +52,6 @@ class Screen:
         self.render_surface.fill((0, 0, 0))
 
         self.tilemap.render(self.render_surface)
-        self.render_surface.blit(
-            settings.TEXTURES['character'][self.action],
-            (self.tilemap.tiles[self.state].x,
-             self.tilemap.tiles[self.state].y)
-        )
 
         self.render_surface.blit(
             settings.TEXTURES['cookie'],
@@ -68,6 +65,7 @@ class Screen:
                 (self.tilemap.tiles[self.state].x,
                  self.tilemap.tiles[self.state].y)
             )
+
         self.screen.blit(
             pygame.transform.scale(
                 self.render_surface,

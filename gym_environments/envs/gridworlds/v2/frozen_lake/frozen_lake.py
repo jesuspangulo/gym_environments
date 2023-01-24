@@ -39,7 +39,8 @@ class FrozenLakeEnv(gym.Env):
 
         np.random.seed(seed)
         self.current_state = 0
-        self.screen.reset()
+        self.current_action = 1
+        self.screen.reset(self.current_state, self.current_action)
         return 0, {}
 
     def step(self, action):
@@ -61,6 +62,7 @@ class FrozenLakeEnv(gym.Env):
             self.current_action,
             self.current_reward,
             terminated)
+
         self.render()
         time.sleep(self.delay)
 
