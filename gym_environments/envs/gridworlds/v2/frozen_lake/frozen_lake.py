@@ -7,7 +7,7 @@ from gym import spaces
 import pygame
 
 from . import settings
-from .screen import Screen
+from .world import World
 
 
 class FrozenLakeEnv(gym.Env):
@@ -15,19 +15,18 @@ class FrozenLakeEnv(gym.Env):
 
     def __init__(self, **kwargs):
         super().__init__()
-        self.observation_space = spaces.Discrete(16)
-        self.action_space = spaces.Discrete(4)
+        self.observation_space = spaces.Discrete(settings.NUM_TILES)
+        self.action_space = spaces.Discrete(settings.NUM_ACTIONS)
         self.current_action = 1
         self.current_state = 0
-        self.current_reward = None
+        self.current_reward = 0.0
         self.delay = settings.DEFAULT_DELAY
         self.P = settings.P
-        self.screen = Screen(
+        self.world = World(
             "Frozen Lake Environment",
-            self.observation_space.n,
-            self.P,
             self.current_state,
-            self.current_action)
+            self.current_action
+        )
 
     def reset(self, seed=None, options=None):
         super().reset(seed=seed)
@@ -40,13 +39,13 @@ class FrozenLakeEnv(gym.Env):
         np.random.seed(seed)
         self.current_state = 0
         self.current_action = 1
-        self.screen.reset(self.current_state, self.current_action)
+        self.world.reset(self.current_state, self.current_action)
         return 0, {}
 
     def step(self, action):
         self.current_action = action
 
-        posibilities = self.P[self.current_state][self.current_action]
+        possibilities = self.P[self.current_state][self.current_action]
 
         p = 0
         i = 0
@@ -54,14 +53,15 @@ class FrozenLakeEnv(gym.Env):
         r = np.random.random()
         while r > p:
             r -= p
-            p, self.current_state, self.current_reward, terminated = posibilities[i]
+            p, self.current_state, self.current_reward, terminated = possibilities[i]
             i += 1
 
-        self.screen.update(
+        self.world.update(
             self.current_state,
             self.current_action,
             self.current_reward,
-            terminated)
+            terminated
+        )
 
         self.render()
         time.sleep(self.delay)
@@ -69,7 +69,7 @@ class FrozenLakeEnv(gym.Env):
         return self.current_state, self.current_reward, terminated, False, {}
 
     def render(self):
-        self.screen.render()
+        self.world.render()
 
     def close(self):
-        self.screen.close()
+        self.world.close()

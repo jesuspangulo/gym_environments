@@ -14,19 +14,17 @@ class Tile:
 
 
 class TileMap:
-    def __init__(self, num_tiles, tile_texture_names):
-        self.rows = num_tiles // 4
-        self.cols = num_tiles // 4
-
+    def __init__(self, tile_texture_names):
         self.tiles = []
         tile_counter = 0
-        for i in range(self.rows):
-            for j in range(self.cols):
+        for i in range(settings.ROWS):
+            for j in range(settings.COLS):
                 self.tiles.append(
                     Tile(
                         j * settings.TILE_SIZE,
                         i * settings.TILE_SIZE,
-                        tile_texture_names[tile_counter]))
+                        tile_texture_names[tile_counter])
+                )
                 tile_counter += 1
 
     def render(self, surface):
