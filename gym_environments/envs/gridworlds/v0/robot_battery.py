@@ -11,12 +11,12 @@ class RobotBatteryEnv(gym.Env):
         super().__init__()
         self.action_space = gym.spaces.Discrete(4)
         self.observation_space = gym.spaces.Discrete(6)
-        self.P = {0: {0: [(0, 0, 0.0, False)], 1: [(1, 2, 0.0, False)], 2: [(1, 1, 0.0, False)], 3: [(0, 0, 0.0, False)]},
-                  1: {0: [(1, 0, 0.0, False)], 1: [(1, 3, 0.0, False)], 2: [(0, 1, 0.0, False)], 3: [(0, 1, 0.0, False)]},
-                  2: {0: [(0, 2, 0.0, False)], 1: [(1, 4, 0.0, False)], 2: [(1, 3, 0.0, False)], 3: [(1, 0, 0.0, False)]},
-                  3: {0: [(1, 2, 0.0, False)], 1: [(1, 5, 1.0, True)], 2: [(0, 3, 0.0, False)], 3: [(1, 1, 0.0, False)]},
-                  4: {0: [(0, 4, 0.0, False)], 1: [(0, 4, 0.0, False)], 2: [(1, 5, 1.0, True)], 3: [(1, 2, 0.0, False)]},
-                  5: {0: [(1, 5, 0.0, True)], 1: [(0, 5, 0.0, True)], 2: [(0, 5, 0.0, True)], 3: [(0, 5, 0.0, True)]}}
+        self.P = {0: {0: [(1, 0, 0.0, False)], 1: [(1, 2, 0.0, False)], 2: [(1, 1, 0.0, False)], 3: [(1, 0, 0.0, False)]},
+                  1: {0: [(1, 0, 0.0, False)], 1: [(1, 3, 0.0, False)], 2: [(1, 1, 0.0, False)], 3: [(1, 1, 0.0, False)]},
+                  2: {0: [(1, 2, 0.0, False)], 1: [(1, 4, 0.0, False)], 2: [(1, 3, 0.0, False)], 3: [(1, 0, 0.0, False)]},
+                  3: {0: [(1, 2, 0.0, False)], 1: [(1, 5, 1.0, True)], 2: [(1, 3, 0.0, False)], 3: [(1, 1, 0.0, False)]},
+                  4: {0: [(1, 4, 0.0, False)], 1: [(1, 4, 0.0, False)], 2: [(1, 5, 1.0, True)], 3: [(1, 2, 0.0, False)]},
+                  5: {0: [(1, 5, 0.0, True)], 1: [(1, 5, 0.0, True)], 2: [(1, 5, 0.0, True)], 3: [(1, 5, 0.0, True)]}}
         self.reset()
 
     def reset(self, seed=None, options=None):

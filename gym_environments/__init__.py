@@ -16,11 +16,11 @@ register(
 )
 
 register(
-    id='RobotBattery-v0',
-    entry_point='gym_environments.envs:RobotBatteryEnvV0',
+    id='FrozenLake-v2',
+    entry_point='gym_environments.envs:FrozenLakeV2',
 )
 
 register(
-    id='FrozenLake-v2',
-    entry_point='gym_environments.envs:FrozenLakeV2',
+    id='RobotMaze-v0',
+    entry_point='gym_environments.envs:RobotMazeEnvV0',
 )
