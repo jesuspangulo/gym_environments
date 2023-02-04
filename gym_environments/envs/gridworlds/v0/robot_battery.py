@@ -6,7 +6,8 @@ import gym
 
 
 class RobotBatteryEnv(gym.Env):
-
+    metadata = {"render_modes": ["human"], "render_fps": 4}
+    
     def __init__(self, render_mode=None):
         super().__init__()
         self.action_space = gym.spaces.Discrete(4)
@@ -31,8 +32,6 @@ class RobotBatteryEnv(gym.Env):
         self.reward = self.P[self.state][action][0][2]
         terminated = self.P[self.state][action][0][3]
         self.state = self.P[self.state][action][0][1]
-        self.render()
-        time.sleep(0.25)
         return self.state, self.reward, terminated, False, {}
 
     def render(self):
