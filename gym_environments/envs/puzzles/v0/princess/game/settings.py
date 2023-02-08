@@ -4,14 +4,6 @@ import pygame
 
 from .src.frames import generate_frames
 
-# Size of our actual window
-WINDOW_WIDTH = 960
-WINDOW_HEIGHT = 800
-
-# Size we're trying to emulate
-VIRTUAL_WIDTH = 240
-VIRTUAL_HEIGHT = 200
-
 TILE_SIZE = 16
 PLAYER_WIDTH = 16
 PLAYER_HEIGHT = 18
