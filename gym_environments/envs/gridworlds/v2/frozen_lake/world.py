@@ -51,12 +51,12 @@ class World:
         if terminated:
             if state == self.finish_state:
                 self.render_goal = False
-                settings.SOUNDS['win'].play()
+                settings.SOUNDS["win"].play()
             else:
                 self.tilemap.tiles[state].texture_name = "cracked_hole"
                 self.render_character = False
-                settings.SOUNDS['ice_cracking'].play()
-                settings.SOUNDS['water_splash'].play()
+                settings.SOUNDS["ice_cracking"].play()
+                settings.SOUNDS["water_splash"].play()
 
         self.state = state
         self.action = action
@@ -67,29 +67,27 @@ class World:
         self.tilemap.render(self.render_surface)
 
         self.render_surface.blit(
-            settings.TEXTURES['stool'],
-            (self.tilemap.tiles[0].x, self.tilemap.tiles[0].y)
+            settings.TEXTURES["stool"],
+            (self.tilemap.tiles[0].x, self.tilemap.tiles[0].y),
         )
 
         if self.render_goal:
             self.render_surface.blit(
-                settings.TEXTURES['goal'],
-                (self.tilemap.tiles[self.finish_state].x,
-                 self.tilemap.tiles[self.finish_state].y)
+                settings.TEXTURES["goal"],
+                (
+                    self.tilemap.tiles[self.finish_state].x,
+                    self.tilemap.tiles[self.finish_state].y,
+                ),
             )
 
         if self.render_character:
             self.render_surface.blit(
-                settings.TEXTURES['character'][self.action],
-                (self.tilemap.tiles[self.state].x,
-                 self.tilemap.tiles[self.state].y)
+                settings.TEXTURES["character"][self.action],
+                (self.tilemap.tiles[self.state].x, self.tilemap.tiles[self.state].y),
             )
 
         self.screen.blit(
-            pygame.transform.scale(
-                self.render_surface,
-                self.screen.get_size()),
-            (0, 0)
+            pygame.transform.scale(self.render_surface, self.screen.get_size()), (0, 0)
         )
 
         pygame.event.pump()

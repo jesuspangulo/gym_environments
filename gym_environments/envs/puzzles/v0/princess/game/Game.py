@@ -16,15 +16,15 @@ class Game:
             w, h = self.world.tile_map.width, self.world.tile_map.height
 
             self.render_surface = pygame.Surface((w, h))
-            self.screen = pygame.display.set_mode((w*4, h*4))
+            self.screen = pygame.display.set_mode((w * 4, h * 4))
             pygame.display.set_caption(title)
-    
+
     def reset(self):
         return self.world.reset()
-    
+
     def get_state(self):
         return self.world.get_state()
-        
+
     def update(self, action):
         return self.world.apply_action(action)
 
@@ -37,10 +37,7 @@ class Game:
         self.world.render(self.render_surface)
 
         self.screen.blit(
-            pygame.transform.scale(
-                self.render_surface,
-                self.screen.get_size()),
-            (0, 0)
+            pygame.transform.scale(self.render_surface, self.screen.get_size()), (0, 0)
         )
 
         pygame.event.pump()

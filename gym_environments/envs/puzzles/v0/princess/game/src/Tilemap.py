@@ -6,7 +6,7 @@ class Tile(DrawableMixin):
     def __init__(self, x, y, frame_index):
         self.x = x
         self.y = y
-        self.texture_name = 'tiles'
+        self.texture_name = "tiles"
         self.frame_index = frame_index
         self.busy_by = None
 
@@ -27,7 +27,7 @@ class TileMap:
     @staticmethod
     def to_i(y):
         return int(y // settings.TILE_SIZE)
-    
+
     @staticmethod
     def to_j(x):
         return int(x // settings.TILE_SIZE)
@@ -39,13 +39,12 @@ class TileMap:
     @staticmethod
     def to_x(j):
         return j * settings.TILE_SIZE
-    
+
     @staticmethod
     def to_y(i):
         return i * settings.TILE_SIZE
-    
+
     def render(self, surface):
         for tile_row in self.tiles:
             for tile in tile_row:
                 tile.render(surface)
-        

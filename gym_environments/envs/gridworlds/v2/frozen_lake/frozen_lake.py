@@ -23,9 +23,7 @@ class FrozenLakeEnv(gym.Env):
         self.delay = settings.DEFAULT_DELAY
         self.P = settings.P
         self.world = World(
-            "Frozen Lake Environment",
-            self.current_state,
-            self.current_action
+            "Frozen Lake Environment", self.current_state, self.current_action
         )
 
     def reset(self, seed=None, options=None):
@@ -34,7 +32,7 @@ class FrozenLakeEnv(gym.Env):
         if options is not None:
             if not isinstance(options, dict):
                 raise RuntimeError("Variable options is not a dictionary")
-            self.delay = options.get('delay', 0.5)
+            self.delay = options.get("delay", 0.5)
 
         np.random.seed(seed)
         self.current_state = 0
@@ -57,10 +55,7 @@ class FrozenLakeEnv(gym.Env):
             i += 1
 
         self.world.update(
-            self.current_state,
-            self.current_action,
-            self.current_reward,
-            terminated
+            self.current_state, self.current_action, self.current_reward, terminated
         )
 
         self.render()

@@ -11,11 +11,6 @@ def generate_frames(atlas, tile_width, tile_height):
     for i in range(num_rows):
         for j in range(num_cols):
             spritesheet.append(
-                pygame.Rect(
-                    j * tile_width,
-                    i * tile_height,
-                    tile_width,
-                    tile_height
-                )
+                pygame.Rect(j * tile_width, i * tile_height, tile_width, tile_height)
             )
     return spritesheet
