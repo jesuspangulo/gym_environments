@@ -23,7 +23,8 @@ class TileMap:
                     Tile(
                         j * settings.TILE_SIZE,
                         i * settings.TILE_SIZE,
-                        tile_texture_names[tile_counter])
+                        tile_texture_names[tile_counter],
+                    )
                 )
                 tile_counter += 1
 

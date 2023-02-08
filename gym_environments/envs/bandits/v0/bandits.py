@@ -3,7 +3,6 @@ import gym
 
 
 class TwoArmedBanditEnv(gym.Env):
-
     def __init__(self):
         super().__init__()
         self.action_space = gym.spaces.Discrete(2)
@@ -25,5 +24,5 @@ class TwoArmedBanditEnv(gym.Env):
             self.reward = 100 * np.random.choice(2, p=[0.9, 0.1])
         return 0, self.reward, False, False, {}
 
-    def render(self, mode='human', close=False):
+    def render(self, mode="human", close=False):
         print("Action {}, reward {}".format(self.action, self.reward))

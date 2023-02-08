@@ -27,7 +27,8 @@ class TwoArmedBanditEnv(gym.Env):
         pygame.init()
         pygame.display.init()
         self.window = pygame.display.set_mode(
-            (settings.WINDOW_WIDTH, settings.WINDOWS_HEIGHT))
+            (settings.WINDOW_WIDTH, settings.WINDOWS_HEIGHT)
+        )
         pygame.display.set_caption("Two-Armed Bandit Environment")
         self.action = None
         self.reward = None
@@ -36,7 +37,7 @@ class TwoArmedBanditEnv(gym.Env):
         return 0
 
     def _get_info(self):
-        return {'state': 0}
+        return {"state": 0}
 
     def reset(self, seed=None, options=None):
         super().reset(seed=seed)
@@ -44,7 +45,7 @@ class TwoArmedBanditEnv(gym.Env):
         if options is not None:
             if not isinstance(options, dict):
                 raise RuntimeError("Variable options is not a dictionary")
-            self.delay = options.get('delay', 0.5)
+            self.delay = options.get("delay", 0.5)
 
         observation = self._get_obs()
         info = self._get_info()
@@ -71,13 +72,12 @@ class TwoArmedBanditEnv(gym.Env):
             x += 50 + settings.MACHINE_WIDTH
 
         # Render the action
-        arrow = settings.TEXTURES['arrow']
+        arrow = settings.TEXTURES["arrow"]
         w, h = arrow.get_size()
-        self.window.blit(arrow, (x - w / 2 - 80, 150 +
-                         settings.MACHINE_HEIGHT - h / 2))
+        self.window.blit(arrow, (x - w / 2 - 80, 150 + settings.MACHINE_HEIGHT - h / 2))
 
         # Render the reward
-        font = settings.FONTS['large']
+        font = settings.FONTS["large"]
         text_obj = font.render(f"{self.reward}", True, (255, 250, 26))
         text_rect = text_obj.get_rect()
         text_rect.center = (x, 80)
@@ -87,11 +87,12 @@ class TwoArmedBanditEnv(gym.Env):
         self.window.fill((0, 0, 0))
 
         # Render the first machine
-        self.window.blit(settings.TEXTURES['machine'], (50, 100))
+        self.window.blit(settings.TEXTURES["machine"], (50, 100))
 
         # Render the second machine
         self.window.blit(
-            settings.TEXTURES['machine'], (100 + settings.MACHINE_WIDTH, 100))
+            settings.TEXTURES["machine"], (100 + settings.MACHINE_WIDTH, 100)
+        )
 
         self._render_props()
 
