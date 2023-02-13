@@ -15,9 +15,9 @@ class World:
         self.statue_2 = None
         self.target_1 = None
         self.target_2 = None
-        self._load_environment()
+        self.__load_environment()
 
-    def _load_environment(self) -> None:
+    def __load_environment(self) -> None:
         with open(settings.ENVIRONMENT, "r") as f:
             rows, cols = f.readline().split(" ")
             rows, cols = int(rows), int(cols)
@@ -66,7 +66,7 @@ class World:
         self.statue_2 = None
         self.target_1 = None
         self.target_2 = None
-        self._load_environment()
+        self.__load_environment()
         return self.get_state()
 
     def check_lost(self) -> None:
@@ -91,9 +91,9 @@ class World:
         )
 
     def get_state(self):
-        mc_i, mc_j = TileMap.to_map(self.main_character.y, self.main_character.x)
-        s1_i, s1_j = TileMap.to_map(self.statue_1.y, self.statue_1.x)
-        s2_i, s2_j = TileMap.to_map(self.statue_2.y, self.statue_2.x)
+        mc_i, mc_j = TileMap.to_map(self.main_character.x, self.main_character.y)
+        s1_i, s1_j = TileMap.to_map(self.statue_1.x, self.statue_1.y)
+        s2_i, s2_j = TileMap.to_map(self.statue_2.x, self.statue_2.y)
         mc_p = mc_i * self.tile_map.cols + mc_j
         s1_p = s1_i * self.tile_map.cols + s1_j
         s2_p = s2_i * self.tile_map.cols + s2_j
