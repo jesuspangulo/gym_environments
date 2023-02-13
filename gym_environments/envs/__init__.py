@@ -27,5 +27,5 @@ from gym_environments.envs.puzzles.v0.blocks.blocks import (
     FrozenLakeV2,
     RobotMazeEnvV0,
     PrincessEnvV0,
-    BlocksEnvV0
+    BlocksEnvV0,
 )

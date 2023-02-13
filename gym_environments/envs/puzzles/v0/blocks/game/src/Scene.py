@@ -19,14 +19,9 @@ class Scene:
             self.move_down,
             self.move_right,
             self.move_up,
-            self.push
+            self.push,
         ]
-        self.push_directions = [
-            (0, -1),
-            (1, 0),
-            (0, 1),
-            (-1, 0)
-        ]
+        self.push_directions = [(0, -1), (1, 0), (0, 1), (-1, 0)]
 
     def __load_environment(self) -> None:
         with open(settings.ENVIRONMENT, "r") as f:
@@ -49,7 +44,7 @@ class Scene:
             row, col = int(row), int(col)
             x, y = TileMap.to_screen(row, col)
             self.character = Character(x, y, self)
-            
+
             row, col = f.readline().split(" ")
             row, col = int(row), int(col)
             x, y = TileMap.to_screen(row, col)
@@ -64,7 +59,7 @@ class Scene:
 
             row, col = f.readline().split(" ")
             self.target = int(row), int(col)
-    
+
     def reset(self):
         self.tile_map = None
         self.character = None
@@ -73,7 +68,7 @@ class Scene:
         self.target = None
         self.__load_environment()
         return self.get_state()
-    
+
     def get_state(self):
         mc_i, mc_j = TileMap.to_map(self.character.x, self.character.y)
         mc_d = self.character.direction
@@ -84,7 +79,7 @@ class Scene:
         b2_p = b2_i * self.tile_map.cols + b2_j
 
         return mc_d, mc_p, b1_p, b2_p
-    
+
     def apply_action(self, action):
         self.actions_map[action](action)
         return self.get_state()
@@ -120,7 +115,7 @@ class Scene:
 
     def render(self, surface):
         self.tile_map.render(surface)
-        surface.blit(settings.GAME_TEXTURES['switch'], TileMap.to_screen(*self.target))
+        surface.blit(settings.GAME_TEXTURES["switch"], TileMap.to_screen(*self.target))
         self.box1.render(surface)
         self.box2.render(surface)
         self.character.render(surface)

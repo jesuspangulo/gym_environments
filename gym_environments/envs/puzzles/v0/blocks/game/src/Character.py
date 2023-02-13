@@ -11,17 +11,11 @@ from .Tilemap import TileMap
 class Character(Entity):
     def __init__(self, x, y, scene):
         super().__init__(
-            x,
-            y,
-            settings.PLAYER_WIDTH,
-            settings.PLAYER_HEIGHT,
-            "character",
-            1,
-            scene
+            x, y, settings.PLAYER_WIDTH, settings.PLAYER_HEIGHT, "character", 1, scene
         )
         self.direction = 3
         self.frames_map = [10, 7, 4, 1]
-        
+
     def move(self):
         self.frame_index = self.frames_map[self.direction]
         i, j = TileMap.to_map(self.x, self.y)

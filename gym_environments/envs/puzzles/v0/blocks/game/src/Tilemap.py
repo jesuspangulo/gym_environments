@@ -2,10 +2,7 @@ from .. import settings
 from .DrawableMixin import DrawableMixin
 
 
-TILE_TEXTURE_DEF = {
-    'S': "snow",
-    'I': "ice"
-}
+TILE_TEXTURE_DEF = {"S": "snow", "I": "ice"}
 
 
 class Tile(DrawableMixin):

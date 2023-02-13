@@ -3,9 +3,7 @@ from .Tilemap import TileMap
 
 
 class Entity(DrawableMixin):
-    def __init__(
-        self, x, y, width, height, texture_name, frame_index, scene
-    ):
+    def __init__(self, x, y, width, height, texture_name, frame_index, scene):
         self.x = x
         self.y = y
         self.width = width
