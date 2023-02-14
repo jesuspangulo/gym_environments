@@ -1,4 +1,6 @@
-# Custom Gym Environments
+Custom Gym Environments for a Reinforcement Learning Course
+
+# Environments
 
 - TwoArmedBandit-v0
 - TwoArmedBandit-v1
