@@ -34,3 +34,8 @@ register(
     id="Princess-v0",
     entry_point="gym_environments.envs:PrincessEnvV0",
 )
+
+register(
+    id="Blocks-v0",
+    entry_point="gym_environments.envs:BlocksEnvV0",
+)

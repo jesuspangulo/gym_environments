@@ -6,7 +6,7 @@ from .Entity import Entity
 
 
 class MainCharacter(Entity):
-    def __init__(self, x, y, world) -> None:
+    def __init__(self, x, y, world):
         super().__init__(
             x,
             y,

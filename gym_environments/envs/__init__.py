@@ -16,6 +16,9 @@ from gym_environments.envs.gridworlds.v0.robot_maze import (
 from gym_environments.envs.puzzles.v0.princess.princess import (
     PrincessEnv as PrincessEnvV0,
 )
+from gym_environments.envs.puzzles.v0.blocks.blocks import (
+    BlocksEnv as BlocksEnvV0,
+)
 
 (
     TwoArmedBanditEnvV0,
@@ -24,4 +27,5 @@ from gym_environments.envs.puzzles.v0.princess.princess import (
     FrozenLakeV2,
     RobotMazeEnvV0,
     PrincessEnvV0,
+    BlocksEnvV0,
 )
