@@ -5,6 +5,8 @@
 - RobotBattery-v0
 - FrozenLake-v2
 - RobotMaze-v0
+- Princess-v0
+- Blocks-v0
 
 # Installation
 
