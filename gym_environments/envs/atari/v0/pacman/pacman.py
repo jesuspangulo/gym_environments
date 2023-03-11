@@ -37,13 +37,13 @@ class PacmanEnv(gym.Env):
         self.current_action = 0
         self.current_reward = 0
 
-        return 0, {}
+        return self.current_state, {}
 
     def step(self, action):
         _, win, lose = self.game.update(action, self.metadata['render_fps'])
         self.game.render()
         terminated = win or lose
-        return 0, 0.0, terminated, False, {}
+        return self.current_state, 0.0, terminated, False, {}
 
     def render(self):
         self.game.render()
