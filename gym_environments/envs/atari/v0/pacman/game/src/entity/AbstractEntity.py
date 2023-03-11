@@ -54,9 +54,6 @@ class AbstractEntity:
             self.position = self.target.copy()
             self.source = self.target.copy()
             self.handle_arrive()
-            self.direction = self.target - self.source
-            if self.direction.length_squared() > 1:
-                self.direction.normalize_ip()
 
         self.__update_animation()
         
