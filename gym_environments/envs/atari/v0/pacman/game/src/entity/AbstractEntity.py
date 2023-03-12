@@ -2,15 +2,15 @@ import pygame
 
 
 class AbstractEntity:
-    def __init__(self, x, y, w, h, speed, interval, texture, animations):
+    def __init__(self, x, y, w, h, speed, texture, interval, animations):
         self.position = pygame.Vector2(x, y)
         self.size = pygame.Vector2(w, h)
         self.direction = pygame.Vector2(0, 0)
         self.source = pygame.Vector2(x, y)
         self.target = pygame.Vector2(x, y)
         self.speed = speed
-        self.anim_interval = interval
         self.texture = texture
+        self.anim_interval = interval
         self.animations = animations
         self.current_animation = None
         self.current_frame = 0
@@ -33,7 +33,7 @@ class AbstractEntity:
         self.current_animation_time = 0
     
     def update(self, dt):
-        if len(self.current_animation) > 0:
+        if len(self.current_animation) > 1:
             self.current_animation_time += dt
 
             if self.current_animation_time >= self.anim_interval:

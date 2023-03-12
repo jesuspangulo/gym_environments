@@ -5,19 +5,19 @@ from ..search.Path import Path
 
 
 class Ghost(AbstractEntity):
-    def __init__(self, x, y, w, h, speed, interval, texture, frames, scene, mode):
+    def __init__(self, x, y, w, h, speed, texture, frames, interval, scene, mode):
         animations = {
             (-1, 0): frames[2:4],
             (0, 1): frames[6:8],
             (1, 0): frames[0:2],
             (0, -1): frames[4:6],
         }
-        super().__init__(x, y, w, h, speed, interval, texture, animations)
+        super().__init__(x, y, w, h, speed, texture, interval, animations)
         self.current_animation = [frames[0]]
         self.scene = scene
         self.mode = mode
         self.path = Path()
-        
+
     def __find_path(self):
         srcp = self.position
         srcs = self.size
@@ -30,6 +30,7 @@ class Ghost(AbstractEntity):
     def handle_arrive(self):
         self.direction = pygame.Vector2(0, 0)
     
+
         if self.path.is_empty():
             self.__find_path()
 
@@ -37,7 +38,7 @@ class Ghost(AbstractEntity):
             return
 
         i, j = self.path.take()
-
+        
         self.target = pygame.Vector2(j * self.size.x, i * self.size.y)
         self.direction = self.target - self.source
         if self.direction.length_squared() > 1:

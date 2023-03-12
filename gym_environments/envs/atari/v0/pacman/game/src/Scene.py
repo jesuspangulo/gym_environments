@@ -32,7 +32,7 @@ class Scene:
             row, col, speed, interval = f.readline().split(",")
             row, col, speed, interval = int(row), int(col), float(speed), float(interval)
             x, y = col * settings.TILE_SIZE, row * settings.TILE_SIZE
-            self.pacman = Pacman(x, y, settings.TILE_SIZE, settings.TILE_SIZE, speed, interval, settings.TEXTURES['pacman'], settings.FRAMES['pacman'], self)
+            self.pacman = Pacman(x, y, settings.TILE_SIZE, settings.TILE_SIZE, speed, settings.TEXTURES['pacman'], settings.FRAMES['pacman'], interval, self)
 
             num_ghosts = int(f.readline())
 
@@ -43,7 +43,7 @@ class Scene:
                 if mode[-1] == '\n':
                     mode = mode[:-1]
                 self.ghosts.append(
-                    Ghost(x, y, settings.TILE_SIZE, settings.TILE_SIZE, speed, interval, settings.TEXTURES['ghosts'], settings.FRAMES['ghosts'][color], self, mode)
+                    Ghost(x, y, settings.TILE_SIZE, settings.TILE_SIZE, speed, settings.TEXTURES['ghosts'], settings.FRAMES['ghosts'][color], interval, self, mode)
                 )
 
 
@@ -70,7 +70,6 @@ class Scene:
     
     def update(self, dt):
         self.pacman.update(dt)
-
         for ghost in self.ghosts:
             ghost.update(dt)
 

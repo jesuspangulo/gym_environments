@@ -4,17 +4,17 @@ from .AbstractEntity import AbstractEntity
 
 
 class Pacman(AbstractEntity):
-    def __init__(self, x, y, w, h, speed, interval, texture, frames, scene):
+    def __init__(self, x, y, w, h, speed, texture, frames, interval, scene):
         animations = {
             (-1, 0): frames[0],
             (0, 1): frames[1],
             (1, 0): frames[2],
             (0, -1): frames[3],
         }
-        super().__init__(x, y, w, h, speed, interval, texture, animations)
+        super().__init__(x, y, w, h, speed, texture, interval, animations)
         self.current_animation = [frames[0][0]]
         self.scene = scene
-        self.buffer_direction = self.direction.copy()
+        self.buffer_direction = pygame.Vector2(0, 0)
         self.action_map = [self.request_left, self.request_down, self.request_right, self.request_up, self.do_nothing]
         self.score = 0
     
@@ -35,15 +35,20 @@ class Pacman(AbstractEntity):
 
     def apply_action(self, action):
         self.action_map[action]()
+    
+    def update(self, dt):
+        super().update(dt)    
+        self.buffer_direction = self.direction.copy()
 
     def handle_arrive(self):
-        self.direction = pygame.Vector2(0, 0)
         i, j = int(self.position.y // self.size.y), int(self.position.x // self.size.x)
         if self.scene.map.charmap[i][j] in ('.', '*'):
             self.score += 1
         self.scene.map.charmap[i][j] = ''
-        n_i, n_j = int(i + self.buffer_direction.y), int(j + self.buffer_direction.x)
-
-        if self.scene.map.charmap[n_i][n_j] != '#':
+        bn_i, bn_j = int(i + self.buffer_direction.y), int(j + self.buffer_direction.x)
+        dn_i, dn_j = int(i + self.direction.y), int(j + self.direction.x)
+        if self.scene.map.charmap[bn_i][bn_j] != '#':
             self.direction = self.buffer_direction.copy()
-        self.target = self.source + self.direction * 32
+            self.target = self.source + self.direction * 32
+        elif self.scene.map.charmap[dn_i][dn_j] != '#':
+            self.target = self.source + self.direction * 32

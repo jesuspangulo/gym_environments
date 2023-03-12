@@ -77,6 +77,8 @@ class PathFinder:
         while pp is not None:
             result.add(pp)
             pp = parent[pp]
+
+        result.take()
         
         return result
     
