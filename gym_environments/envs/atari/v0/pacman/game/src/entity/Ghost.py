@@ -1,10 +1,10 @@
 import pygame
 
-from .AbstractEntity import AbstractEntity
+from .BaseEntity import BaseEntity
 from ..search.Path import Path
 
 
-class Ghost(AbstractEntity):
+class Ghost(BaseEntity):
     def __init__(self, x, y, w, h, speed, texture, frames, interval, scene, mode):
         animations = {
             (-1, 0): frames[2:4],
@@ -27,20 +27,29 @@ class Ghost(AbstractEntity):
         tgt = (int(tgtp.y // tgts.y), int(tgtp.x // tgts.x))
         self.path = self.scene.pathfinder.find_path(src, tgt, self.mode)
         
-    def handle_arrive(self):
-        self.direction = pygame.Vector2(0, 0)
-    
+    def update(self, dt):
+        super().update(dt)
+        expected_distance = (self.target - self.source).length_squared()
+        distance = (self.position - self.source).length_squared()
 
-        if self.path.is_empty():
-            self.__find_path()
-
-        if self.path.is_empty():
-            return
-
-        i, j = self.path.take()
+        if distance >= expected_distance:
+            self.position = self.target.copy()
+            self.source = self.target.copy()
         
-        self.target = pygame.Vector2(j * self.size.x, i * self.size.y)
-        self.direction = self.target - self.source
-        if self.direction.length_squared() > 1:
-            self.direction.normalize_ip()
+            self.direction = pygame.Vector2(0, 0)
+
+            if self.path.is_empty():
+                self.__find_path()
+
+            if self.path.is_empty():
+                return
+
+            i, j = self.path.take()
+            
+            self.target = pygame.Vector2(j * self.size.x, i * self.size.y)
+            self.direction = self.target - self.source
+            if self.direction.length_squared() > 1:
+                self.direction.normalize_ip()
+        
+        self.update_animation()
 
