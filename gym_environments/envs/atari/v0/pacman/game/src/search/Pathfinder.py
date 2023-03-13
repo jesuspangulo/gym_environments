@@ -81,6 +81,36 @@ class PathFinder:
         result.take()
         
         return result
+
+    def find_closest_by_pred(self, src, pred):
+        if src not in self.graph.nodes:
+            raise RuntimeError("Node does not exist")
+        visited = set()
+        queue = Queue(len(self.graph.nodes))
+        queue.add(src)
+        visited.add(src)
+
+        while (not queue.is_empty()):
+            p = queue.take()
+
+            if pred(*p):
+                return p
+
+            for arc in self.graph.nodes[p]:
+                if arc in visited:
+                    continue
+                visited.add(arc)
+
+                q = self.graph.get_connected_node(p, arc)
+
+                if q in visited:
+                    continue
+
+                visited.add(q)
+                queue.add(q)
+
+        return src
+
     
     def render(self, surface, tile_size):
         image = pygame.Surface((tile_size, tile_size), pygame.SRCALPHA)
