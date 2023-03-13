@@ -59,7 +59,7 @@ class PacmanEnv(gym.Env):
         if win:
             self.current_reward = 1000.0
         elif lose:
-            self.current_reward = -100.0
+            self.current_reward = -500.0
 
         terminated = win or lose
         return np.array(self.current_state, dtype=np.float32), self.current_reward, terminated, False, {}
