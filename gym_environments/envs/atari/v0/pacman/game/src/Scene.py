@@ -1,8 +1,11 @@
 from .. import settings
+from .Dot import Dot
 from .Map import Map
+from .entity.BaseEntity import Direction
 from .entity.Ghost import Ghost
 from .entity.Pacman import Pacman
 from .search.Pathfinder import PathFinder
+from .definitions.dots import DOTS
 
 
 def distance(x1, x2, y1, y2):
@@ -18,7 +21,7 @@ class Scene:
         self.map = None
         self.pacman = None
         self.ghosts = []
-        self.num_dots = 0
+        self.dots = []
         self.__load_environment()
         self.pathfinder = PathFinder(self.map)
         self.lose = False
@@ -33,9 +36,13 @@ class Scene:
                 row = f.readline()
                 for j in range(cols):
                     s = row[j]
-                    self.map.charmap[i][j] = s
                     if s in ('.', '*'):
-                        self.num_dots += 1
+                        x, y = j * settings.TILE_SIZE + settings.TILE_SIZE // 2, i * settings.TILE_SIZE + settings.TILE_SIZE // 2
+                        defs = DOTS[s]
+                        self.dots.append(Dot(x, y, defs))
+                    else:
+                        self.map.charmap[i][j] = s
+                    
 
             row, col, speed, interval = f.readline().split(",")
             row, col, speed, interval = int(row), int(col), float(speed), float(interval)
@@ -59,7 +66,7 @@ class Scene:
         self.map = None
         self.pacman = None
         self.ghosts = []
-        self.num_dots = 0
+        self.dots = []
         self.__load_environment()
         self.pathfinder = PathFinder(self.map)
         return self.get_state()
@@ -71,19 +78,35 @@ class Scene:
         id, jd = self.pathfinder.find_closest_by_pred((ip, jp), lambda i, j: self.map.charmap[i][j] in ('.', '*'))
         dcd = distance(jp, jd, ip, id) * settings.TILE_SIZE
         max_dist = distance(0, 10, 0, 10) * settings.TILE_SIZE
-        return [dg1/max_dist, dg2/max_dist, dcd/max_dist]
+
+        pacman_dir = self.pacman.dir_to_num()
+
+        pacman_moving_left = 1 if pacman_dir == Direction.LEFT else 0
+        pacman_moving_down = 1 if pacman_dir == Direction.DOWN else 0
+        pacman_moving_right = 1 if pacman_dir == Direction.RIGHT else 0
+        pacman_moving_up = 1 if pacman_dir == Direction.UP else 0
+
+        return [dg1/max_dist, dg2/max_dist, dcd/max_dist, pacman_moving_left, pacman_moving_down, pacman_moving_right, pacman_moving_up]
 
     def check_win(self):
-        return self.num_dots == self.pacman.score
+        return len(self.dots) == 0
     
     def check_lose(self):
         return self.lose
     
     def apply_action(self, action):
-        self.pacman.apply_action(action)
+        return self.pacman.apply_action(action)
     
     def update(self, dt):
         self.pacman.update(dt)
+
+        for dot in self.dots:
+            if self.pacman.get_collision_rect().colliderect(dot.get_collision_rect()):
+                dot.eaten = True
+                dot.on_collide(self.pacman)
+        
+        self.dots = [d for d in self.dots if not d.eaten]
+
         for ghost in self.ghosts:
             ghost.update(dt)
 
@@ -92,6 +115,8 @@ class Scene:
     
     def render(self, surface):
         self.map.render(surface)
+        for dot in self.dots:
+            dot.render(surface)
         self.pacman.render(surface)
         for ghost in self.ghosts:
             ghost.render(surface)

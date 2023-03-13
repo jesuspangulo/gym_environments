@@ -18,7 +18,3 @@ class Map:
                 x = j * settings.TILE_SIZE         
                 if self.charmap[i][j] == '#':
                     pygame.draw.rect(surface, (0, 0, 255), pygame.Rect(x, y, settings.TILE_SIZE, settings.TILE_SIZE))
-                elif self.charmap[i][j] == '.':
-                    pygame.draw.circle(surface, (255, 255, 0), (x + settings.TILE_SIZE // 2, y + settings.TILE_SIZE // 2), 2)
-                elif self.charmap[i][j] == '*':
-                    pygame.draw.circle(surface, (255, 255, 0), (x + settings.TILE_SIZE // 2, y + settings.TILE_SIZE // 2), 8)

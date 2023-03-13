@@ -1,9 +1,9 @@
 import pygame
 
-from .AbstractEntity import AbstractEntity
+from .BaseEntity import BaseEntity, Direction
 
 
-class Pacman(AbstractEntity):
+class Pacman(BaseEntity):
     def __init__(self, x, y, w, h, speed, texture, frames, interval, scene):
         animations = {
             (-1, 0): frames[0],
@@ -14,41 +14,133 @@ class Pacman(AbstractEntity):
         super().__init__(x, y, w, h, speed, texture, interval, animations)
         self.current_animation = [frames[0][0]]
         self.scene = scene
-        self.buffer_direction = pygame.Vector2(0, 0)
         self.action_map = [self.request_left, self.request_down, self.request_right, self.request_up, self.do_nothing]
         self.score = 0
     
     def request_left(self):
-        self.buffer_direction = pygame.Vector2(-1, 0)
+        dir_num = self.dir_to_num()
+
+        if dir_num == Direction.LEFT:
+            # it is already moving to the left, there is no direction change
+            return False
+
+        if dir_num in [Direction.UP, Direction.DOWN, Direction.IDLE]:
+            # Check if it is allowed to turn left
+            # Get the center of pacman
+            rect = self.get_collision_rect()
+            cx, cy = rect.center
+            ci, cj = int(cy // rect.height), int(cx // rect.width)
+            if self.scene.map.charmap[ci][cj - 1] == '#':
+                # There is wall to the left, it is not allowed to turn left.
+                return False
+
+            # Fix vertical position
+            self.position.y = (cy // rect.height) * rect.height
+        
+        self.direction = pygame.Vector2(-1, 0)
+        self.update_animation()
+        return True
     
     def request_down(self):
-        self.buffer_direction = pygame.Vector2(0, 1)
+        dir_num = self.dir_to_num()
+
+        if dir_num == Direction.DOWN:
+            # it is already moving down, there is no direction change
+            return False
+
+        if dir_num in [Direction.LEFT, Direction.RIGHT, Direction.IDLE]:
+            # Check if it is allowed to turn down
+            # Get the center of pacman
+            rect = self.get_collision_rect()
+            cx, cy = rect.center
+            ci, cj = int(cy // rect.height), int(cx // rect.width)
+            if self.scene.map.charmap[ci + 1][cj] == '#':
+                # There is wall on bottom, it is not allowed to turn down.
+                return False
+        
+            # Fix horizontal position
+            self.position.x = (cx // rect.width) * rect.width
+
+        self.direction = pygame.Vector2(0, 1)
+        self.update_animation()
+        return True
     
     def request_right(self):
-        self.buffer_direction = pygame.Vector2(1, 0)
+        dir_num = self.dir_to_num()
+
+        if dir_num == Direction.RIGHT:
+            # it is already moving to the right, there is no direction change
+            return False
+
+        if dir_num in [Direction.UP, Direction.DOWN, Direction.IDLE]:
+            # Check if it is allowed to turn right
+            # Get the center of pacman
+            rect = self.get_collision_rect()
+            cx, cy = rect.center
+            ci, cj = int(cy // rect.height), int(cx // rect.width)
+            if self.scene.map.charmap[ci][cj + 1] == '#':
+                # There is wall to the right, it is not allowed to turn right.
+                return False
+            
+            # Fix vertical position
+            self.position.y = (cy // rect.height) * rect.height
+
+        self.direction = pygame.Vector2(1, 0)
+        self.update_animation()
+        return True
     
     def request_up(self):
-        self.buffer_direction = pygame.Vector2(0, -1)
+        dir_num = self.dir_to_num()
+
+        if dir_num == Direction.UP:
+            # it is already moving up, there is no direction change
+            return False
+
+        if dir_num in [Direction.LEFT, Direction.RIGHT, Direction.IDLE]:
+            # Check if it is allowed to turn up
+            # Get the center of pacman
+            rect = self.get_collision_rect()
+            cx, cy = rect.center
+            ci, cj = int(cy // rect.height), int(cx // rect.width)
+            if self.scene.map.charmap[ci - 1][cj] == '#':
+                # There is wall on top, it is not allowed to turn up.
+                return False
+
+            # Fix horizontal position
+            self.position.x = (cx // rect.width) * rect.width
+
+        self.direction = pygame.Vector2(0, -1)
+        self.update_animation()
+        return True
 
     def do_nothing(self):
-        pass
+        return self.dir_to_num() != Direction.IDLE
 
     def apply_action(self, action):
         self.action_map[action]()
     
     def update(self, dt):
-        super().update(dt)    
-        self.buffer_direction = self.direction.copy()
+        super().update(dt)
 
-    def handle_arrive(self):
-        i, j = int(self.position.y // self.size.y), int(self.position.x // self.size.x)
-        if self.scene.map.charmap[i][j] in ('.', '*'):
-            self.score += 1
-        self.scene.map.charmap[i][j] = ''
-        bn_i, bn_j = int(i + self.buffer_direction.y), int(j + self.buffer_direction.x)
-        dn_i, dn_j = int(i + self.direction.y), int(j + self.direction.x)
-        if self.scene.map.charmap[bn_i][bn_j] != '#':
-            self.direction = self.buffer_direction.copy()
-            self.target = self.source + self.direction * 32
-        elif self.scene.map.charmap[dn_i][dn_j] != '#':
-            self.target = self.source + self.direction * 32
+        # Fix pacman position
+        rect = self.get_collision_rect()
+        cx, cy = rect.center
+        ci, cj = int(cy // rect.height), int(cx // rect.width)
+        
+        top_i = int(rect.top // rect.height)
+        bottom_i = int(rect.bottom // rect.height)
+
+        if '#' in (self.scene.map.charmap[top_i][cj], self.scene.map.charmap[bottom_i][cj]):
+            # Collision with a top or a bottom wall
+            self.position.y = (cy // rect.height) * rect.height
+
+        left_j = int(rect.left // rect.width)
+        right_j = int(rect.right // rect.width)
+
+        if '#' in (self.scene.map.charmap[ci][left_j], self.scene.map.charmap[ci][right_j]):
+            # Collision with a left or a right wall
+            self.position.x = (cx // rect.width) * rect.width
+        
+
+        
+

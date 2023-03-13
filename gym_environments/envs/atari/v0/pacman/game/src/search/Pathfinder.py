@@ -84,7 +84,7 @@ class PathFinder:
 
     def find_closest_by_pred(self, src, pred):
         if src not in self.graph.nodes:
-            raise RuntimeError("Node does not exist")
+            raise RuntimeError(f"Node {src} does not exist")
         visited = set()
         queue = Queue(len(self.graph.nodes))
         queue.add(src)

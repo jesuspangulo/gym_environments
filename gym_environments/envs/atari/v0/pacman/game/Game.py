@@ -32,12 +32,12 @@ class Game:
 
         dt = self.clock.tick(fps) / 1000.0
 
-        self.scene.update(dt)
+        effective_action = self.scene.update(dt)
         
         new_state = self.get_state()
         win = self.scene.check_win()
         lose = self.scene.check_lose()
-        return new_state, win, lose
+        return new_state, win, lose, effective_action
 
     def render(self):
         if self.render_mode is None:
