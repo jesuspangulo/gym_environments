@@ -34,7 +34,7 @@ class Game:
 
         self.scene.update(dt)
         
-        new_state = 0
+        new_state = self.get_state()
         win = self.scene.check_win()
         lose = self.scene.check_lose()
         return new_state, win, lose

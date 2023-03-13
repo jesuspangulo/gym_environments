@@ -5,6 +5,14 @@ from .entity.Pacman import Pacman
 from .search.Pathfinder import PathFinder
 
 
+def distance(x1, x2, y1, y2):
+    return abs(x1 - x2) + abs(y1 - y2)
+
+
+def distance_v(v1, v2):
+    return distance(v1.x, v2.x, v1.y, v2.y)
+
+
 class Scene:
     def __init__(self):
         self.map = None
@@ -57,7 +65,13 @@ class Scene:
         return self.get_state()
 
     def get_state(self):
-        return 0
+        dg1 = distance_v(self.pacman.position, self.ghosts[0].position)
+        dg2 = distance_v(self.pacman.position, self.ghosts[1].position)
+        ip, jp = int(self.pacman.position.y // settings.TILE_SIZE), int(self.pacman.position.x // settings.TILE_SIZE) 
+        id, jd = self.pathfinder.find_closest_by_pred((ip, jp), lambda i, j: self.map.charmap[i][j] in ('.', '*'))
+        dcd = distance(jp, jd, ip, id) * settings.TILE_SIZE
+        max_dist = distance(0, 10, 0, 10) * settings.TILE_SIZE
+        return [dg1/max_dist, dg2/max_dist, dcd/max_dist]
 
     def check_win(self):
         return self.num_dots == self.pacman.score
@@ -74,7 +88,7 @@ class Scene:
             ghost.update(dt)
 
             if self.pacman.get_collision_rect().colliderect(ghost.get_collision_rect()):
-                self.lose = True        
+                self.lose = True
     
     def render(self, surface):
         self.map.render(surface)
