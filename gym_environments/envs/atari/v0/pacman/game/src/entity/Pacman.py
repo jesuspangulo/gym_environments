@@ -24,7 +24,7 @@ class Pacman(BaseEntity):
             # it is already moving to the left, there is no direction change
             return False
 
-        if dir_num in [Direction.UP, Direction.DOWN, Direction.IDLE]:
+        if dir_num in (Direction.UP, Direction.DOWN, Direction.IDLE):
             # Check if it is allowed to turn left
             # Get the center of pacman
             rect = self.get_collision_rect()
@@ -48,7 +48,7 @@ class Pacman(BaseEntity):
             # it is already moving down, there is no direction change
             return False
 
-        if dir_num in [Direction.LEFT, Direction.RIGHT, Direction.IDLE]:
+        if dir_num in (Direction.LEFT, Direction.RIGHT, Direction.IDLE):
             # Check if it is allowed to turn down
             # Get the center of pacman
             rect = self.get_collision_rect()
@@ -72,7 +72,7 @@ class Pacman(BaseEntity):
             # it is already moving to the right, there is no direction change
             return False
 
-        if dir_num in [Direction.UP, Direction.DOWN, Direction.IDLE]:
+        if dir_num in (Direction.UP, Direction.DOWN, Direction.IDLE):
             # Check if it is allowed to turn right
             # Get the center of pacman
             rect = self.get_collision_rect()
@@ -96,7 +96,7 @@ class Pacman(BaseEntity):
             # it is already moving up, there is no direction change
             return False
 
-        if dir_num in [Direction.LEFT, Direction.RIGHT, Direction.IDLE]:
+        if dir_num in (Direction.LEFT, Direction.RIGHT, Direction.IDLE):
             # Check if it is allowed to turn up
             # Get the center of pacman
             rect = self.get_collision_rect()
@@ -117,7 +117,7 @@ class Pacman(BaseEntity):
         return self.dir_to_num() != Direction.IDLE
 
     def apply_action(self, action):
-        self.action_map[action]()
+        return self.action_map[action]()
     
     def update(self, dt):
         super().update(dt)

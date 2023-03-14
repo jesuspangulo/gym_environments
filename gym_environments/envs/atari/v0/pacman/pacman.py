@@ -15,9 +15,8 @@ class PacmanEnv(gym.Env):
         super().__init__()
         self.render_mode = kwargs.get("render_mode")
         self.game = Game("Pacman Atari Env", self.render_mode)
-        self.low = np.array([0.0, 0.0, 0.0, 0, 0, 0, 0], dtype=np.float32)
-        self.high = np.array([np.inf, np.inf, np.inf, 1, 1, 1, 1], dtype=np.float32)
-        self.observation_space = spaces.Discrete(1)
+        self.low = np.array([-160.0, -160.0, 0.0, 0, 0, 0, 0, 0, 0, 0, 0], dtype=np.float32)
+        self.high = np.array([160.0, 160.0, np.inf, 1, 1, 1, 1, 1, 1, 1, 1], dtype=np.float32)
         self.action_space = spaces.Discrete(5)
         self.current_state = self.game.get_state()
         self.current_action = 0
@@ -48,12 +47,15 @@ class PacmanEnv(gym.Env):
         if effective_action:
             self.current_reward = -1.0
         else:
-            self.current_reward = -10
+            self.current_reward = -50.0
 
-        dist_closest_ghost = min(self.current_state[0:2])
+        #dist_closest_ghost = min(self.current_state[0:2])
 
-        self.current_reward -= 25/dist_closest_ghost
-        self.current_reward += 50*self.current_state[2]
+        #self.current_reward -= 25 / dist_closest_ghost
+        if self.current_state[2] == 0:
+            self.current_reward += 100
+        else:
+            self.current_reward -= 50 * self.current_state[2]
 
 
         if win:

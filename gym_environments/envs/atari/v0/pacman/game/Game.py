@@ -1,3 +1,5 @@
+import time
+
 import pygame
 
 from .src.Scene import Scene
@@ -28,11 +30,11 @@ class Game:
         return self.scene.get_state()
 
     def update(self, action, fps):
-        self.scene.apply_action(action)
+        effective_action = self.scene.apply_action(action)
 
-        dt = self.clock.tick(fps) / 1000.0
+        dt = 1
 
-        effective_action = self.scene.update(dt)
+        self.scene.update(dt)
         
         new_state = self.get_state()
         win = self.scene.check_win()
@@ -53,6 +55,8 @@ class Game:
 
         pygame.event.pump()
         pygame.display.update()
+        time.sleep(0.016)
+        
 
     def close(self):
         if self.render_mode is None:

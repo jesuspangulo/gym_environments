@@ -48,7 +48,7 @@ class Scene:
             row, col, speed, interval = int(row), int(col), float(speed), float(interval)
             x, y = col * settings.TILE_SIZE, row * settings.TILE_SIZE
             self.pacman = Pacman(x, y, settings.TILE_SIZE, settings.TILE_SIZE, speed, settings.TEXTURES['pacman'], settings.FRAMES['pacman'], interval, self)
-
+            """
             num_ghosts = int(f.readline())
 
             for _ in range(num_ghosts):
@@ -60,6 +60,7 @@ class Scene:
                 self.ghosts.append(
                     Ghost(x, y, settings.TILE_SIZE, settings.TILE_SIZE, speed, settings.TEXTURES['ghosts'], settings.FRAMES['ghosts'][color], interval, self, mode)
                 )
+            """
 
 
     def reset(self):
@@ -72,11 +73,26 @@ class Scene:
         return self.get_state()
 
     def get_state(self):
-        dg1 = distance_v(self.pacman.position, self.ghosts[0].position)
-        dg2 = distance_v(self.pacman.position, self.ghosts[1].position)
-        ip, jp = int(self.pacman.position.y // settings.TILE_SIZE), int(self.pacman.position.x // settings.TILE_SIZE) 
-        id, jd = self.pathfinder.find_closest_by_pred((ip, jp), lambda i, j: self.map.charmap[i][j] in ('.', '*'))
-        dcd = distance(jp, jd, ip, id) * settings.TILE_SIZE
+        #dg1 = distance_v(self.pacman.position, self.ghosts[0].position)
+        #dg2 = distance_v(self.pacman.position, self.ghosts[1].position)
+        xp, yp = self.pacman.position.x, self.pacman.position.y
+
+        if len(self.dots) == 0:
+            min_dot = self.dots[0] 
+            min_xd, min_yd = min_dot.position.x, min_dot.position.y
+            min_dot_dist = distance(xp, min_xd, yp, min_yd)
+            
+            for dot in self.dots[1:]:
+                dist = distance(xp, dot.position.x, yp, dot.position.y)
+                if dist < min_dot_dist:
+                    min_dot_dist = dist
+                    min_xd = dot.position.x
+                    min_yd = dot.position.y
+        else:
+            min_dot_dist = 0
+            min_xd = xp
+            min_yd = yp
+
         max_dist = distance(0, 10, 0, 10) * settings.TILE_SIZE
 
         pacman_dir = self.pacman.dir_to_num()
@@ -86,7 +102,16 @@ class Scene:
         pacman_moving_right = 1 if pacman_dir == Direction.RIGHT else 0
         pacman_moving_up = 1 if pacman_dir == Direction.UP else 0
 
-        return [dg1/max_dist, dg2/max_dist, dcd/max_dist, pacman_moving_left, pacman_moving_down, pacman_moving_right, pacman_moving_up]
+        dot_to_left = 1 if min_xd < xp else 0
+        dot_to_down = 1 if min_yd > yp else 0
+        dot_to_right = 1 if min_xd > xp else 0
+        dot_to_up = 1 if min_yd < yp else 0
+
+        x = self.pacman.position.x / 160
+        y = self.pacman.position.y / 160
+
+        #return [x, y, dg1/max_dist, dg2/max_dist, dcd/max_dist, pacman_moving_left, pacman_moving_down, pacman_moving_right, pacman_moving_up]
+        return [x, y, min_dot_dist/max_dist, pacman_moving_left, pacman_moving_down, pacman_moving_right, pacman_moving_up, dot_to_left, dot_to_down, dot_to_right, dot_to_up]
 
     def check_win(self):
         return len(self.dots) == 0
