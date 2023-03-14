@@ -9,6 +9,7 @@ Custom Gym Environments for a Reinforcement Learning Course
 - RobotMaze-v0
 - Princess-v0
 - Blocks-v0
+- Pacman-v0
 
 # Installation
 
