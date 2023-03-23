@@ -22,6 +22,9 @@ from gym_environments.envs.puzzles.v0.blocks.blocks import (
 from gym_environments.envs.atari.v0.pacman.pacman import (
     PacmanEnv as PacmanEnvV0
 )
+from gym_environments.envs.atari.v0.binaryland.binaryland import (
+    BinarylandEnv as BinarylandEnvV0
+)
 
 (
     TwoArmedBanditEnvV0,
@@ -32,4 +35,5 @@ from gym_environments.envs.atari.v0.pacman.pacman import (
     PrincessEnvV0,
     BlocksEnvV0,
     PacmanEnvV0,
+    BinarylandEnvV0,
 )

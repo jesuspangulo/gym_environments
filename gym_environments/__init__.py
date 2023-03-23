@@ -44,3 +44,8 @@ register(
     id="Pacman-v0",
     entry_point="gym_environments.envs:PacmanEnvV0",
 )
+
+register(
+    id="Binaryland-v0",
+    entry_point="gym_environments.envs:BinarylandEnvV0",
+)
