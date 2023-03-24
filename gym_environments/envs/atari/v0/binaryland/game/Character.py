@@ -1,21 +1,16 @@
 import pygame
 
 from . import settings
+from .Entity import Entity
 
 
-class Character:
+class Character(Entity):
     def __init__(self, x, y, texture_name, map):
-        self.x = x
-        self.y = y
-        self.texture_name = texture_name
+        super().__init__(x, y, texture_name)
         self.map = map
-
         self.actions_map = [
             self.move_left, self.move_down, self.move_right, self.move_up
         ]
-
-    def get_collision_rect(self):
-        return pygame.Rect(self.x + 1, self.y + 1, settings.TILE_SIZE - 2, settings.TILE_SIZE - 2)
     
     def move_up(self):
         rect = self.get_collision_rect()
@@ -74,7 +69,4 @@ class Character:
         return True
 
     def apply_action(self, action):
-        return self.actions_map[action % len(self.actions_map)]()
-    
-    def render(self, surface):
-        surface.blit(settings.TEXTURES[self.texture_name], (self.x, self.y))
+        return self.actions_map[action]()

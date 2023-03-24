@@ -26,7 +26,8 @@ class Game:
 
     def update(self, action):
         self.scene.apply_action(action)
-        return self.get_state()
+        win = self.scene.check_win()
+        return self.get_state(), win
 
     def render(self):
         if self.render_mode is not None and self.render_mode == "human":
