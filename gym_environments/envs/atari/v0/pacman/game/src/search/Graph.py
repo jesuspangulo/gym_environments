@@ -1,24 +1,22 @@
-
-
 class Graph:
     def __init__(self):
         self.nodes = dict()
         self.arcs = set()
 
     def add_node(self, info):
-        if not hasattr(info, '__hash__'):
+        if not hasattr(info, "__hash__"):
             raise TypeError("Argument must be hashable")
-        
+
         if info not in self.nodes:
             self.nodes[info] = set()
-        
+
     def add_arc(self, src, tgt):
         if (src, tgt) in self.arcs:
             return
-        
+
         if (tgt, src) in self.arcs:
             return
-        
+
         # Ensure that both nodes are in the graph
         self.add_node(src)
         self.add_node(tgt)

@@ -26,7 +26,7 @@ class Ghost(BaseEntity):
         src = (int(srcp.y // srcs.y), int(srcp.x // srcs.x))
         tgt = (int(tgtp.y // tgts.y), int(tgtp.x // tgts.x))
         self.path = self.scene.pathfinder.find_path(src, tgt, self.mode)
-        
+
     def update(self, dt):
         super().update(dt)
         expected_distance = (self.target - self.source).length_squared()
@@ -35,7 +35,7 @@ class Ghost(BaseEntity):
         if distance >= expected_distance:
             self.position = self.target.copy()
             self.source = self.target.copy()
-        
+
             self.direction = pygame.Vector2(0, 0)
 
             if self.path.is_empty():
@@ -45,11 +45,10 @@ class Ghost(BaseEntity):
                 return
 
             i, j = self.path.take()
-            
+
             self.target = pygame.Vector2(j * self.size.x, i * self.size.y)
             self.direction = self.target - self.source
             if self.direction.length_squared() > 1:
                 self.direction.normalize_ip()
-        
-        self.update_animation()
 
+        self.update_animation()

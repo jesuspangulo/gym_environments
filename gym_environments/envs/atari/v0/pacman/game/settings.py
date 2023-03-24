@@ -17,11 +17,11 @@ BASE_DIR = Path(__file__).parent
 CHARMAP = BASE_DIR / "maps" / "level1.txt"
 
 TEXTURES = {
-    'pacman': pygame.image.load(BASE_DIR / "graphics" / "pacman.png"),
-    'ghosts': pygame.image.load(BASE_DIR / "graphics" / "ghosts.png"),
+    "pacman": pygame.image.load(BASE_DIR / "graphics" / "pacman.png"),
+    "ghosts": pygame.image.load(BASE_DIR / "graphics" / "ghosts.png"),
 }
 
 FRAMES = {
-    'pacman': frames.generate_frames(TEXTURES['pacman'], TILE_SIZE, TILE_SIZE),
-    'ghosts': frames.generate_frames(TEXTURES['ghosts'], TILE_SIZE, TILE_SIZE),
+    "pacman": frames.generate_frames(TEXTURES["pacman"], TILE_SIZE, TILE_SIZE),
+    "ghosts": frames.generate_frames(TEXTURES["ghosts"], TILE_SIZE, TILE_SIZE),
 }

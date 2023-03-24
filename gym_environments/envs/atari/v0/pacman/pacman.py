@@ -42,7 +42,9 @@ class PacmanEnv(gym.Env):
 
     def step(self, action):
         self.current_action = action
-        self.current_state, win, lose, effective_action = self.game.update(action, self.metadata['render_fps'])
+        self.current_state, win, lose, effective_action = self.game.update(
+            action, self.metadata["render_fps"]
+        )
         self.game.render()
 
         if effective_action:
@@ -52,9 +54,8 @@ class PacmanEnv(gym.Env):
 
         dist_closest_ghost = min(self.current_state[0:2])
 
-        self.current_reward -= 25/dist_closest_ghost
-        self.current_reward += 50*self.current_state[2]
-
+        self.current_reward -= 25 / dist_closest_ghost
+        self.current_reward += 50 * self.current_state[2]
 
         if win:
             self.current_reward = 1000.0
@@ -62,7 +63,13 @@ class PacmanEnv(gym.Env):
             self.current_reward = -500.0
 
         terminated = win or lose
-        return np.array(self.current_state, dtype=np.float32), self.current_reward, terminated, False, {}
+        return (
+            np.array(self.current_state, dtype=np.float32),
+            self.current_reward,
+            terminated,
+            False,
+            {},
+        )
 
     def render(self):
         self.game.render()

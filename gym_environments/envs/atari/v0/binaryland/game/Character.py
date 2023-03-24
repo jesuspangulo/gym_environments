@@ -9,9 +9,12 @@ class Character(Entity):
         super().__init__(x, y, texture_name)
         self.map = map
         self.actions_map = [
-            self.move_left, self.move_down, self.move_right, self.move_up
+            self.move_left,
+            self.move_down,
+            self.move_right,
+            self.move_up,
         ]
-    
+
     def move_up(self):
         rect = self.get_collision_rect()
 
@@ -19,13 +22,12 @@ class Character(Entity):
         i = int(next_y // settings.TILE_SIZE)
         l = int(rect.left // settings.TILE_SIZE)
         r = int(rect.right // settings.TILE_SIZE)
-        
-        if '#' in (self.map.charmap[i][l], self.map.charmap[i][r]):
-            return False
-        
-        self.y = next_y
-        return True
-    
+
+        if "#" in (self.map.charmap[i][l], self.map.charmap[i][r]):
+            return False, None, None
+
+        return True, self.x, next_y
+
     def move_down(self):
         rect = self.get_collision_rect()
 
@@ -34,12 +36,11 @@ class Character(Entity):
         l = int(rect.left // settings.TILE_SIZE)
         r = int(rect.right // settings.TILE_SIZE)
 
-        if '#' in (self.map.charmap[i][l], self.map.charmap[i][r]):
-            return False
-        
-        self.y = next_y
-        return True
-    
+        if "#" in (self.map.charmap[i][l], self.map.charmap[i][r]):
+            return False, None, None
+
+        return True, self.x, next_y
+
     def move_left(self):
         rect = self.get_collision_rect()
 
@@ -48,11 +49,10 @@ class Character(Entity):
         t = int(rect.top // settings.TILE_SIZE)
         b = int(rect.bottom // settings.TILE_SIZE)
 
-        if '#' in (self.map.charmap[t][j], self.map.charmap[b][j]):
-            return False
-        
-        self.x = next_x
-        return True
+        if "#" in (self.map.charmap[t][j], self.map.charmap[b][j]):
+            return False, None, None
+
+        return True, next_x, self.y
 
     def move_right(self):
         rect = self.get_collision_rect()
@@ -61,12 +61,18 @@ class Character(Entity):
         j = int((rect.right + 1) // settings.TILE_SIZE)
         t = int(rect.top // settings.TILE_SIZE)
         b = int(rect.bottom // settings.TILE_SIZE)
-        
-        if '#' in (self.map.charmap[t][j], self.map.charmap[b][j]):
-            return False
-        
-        self.x = next_x
-        return True
+
+        if "#" in (self.map.charmap[t][j], self.map.charmap[b][j]):
+            return False, None, None
+
+        return True, next_x, self.y
 
     def apply_action(self, action):
-        return self.actions_map[action]()
+        moved, new_x, new_y = self.actions_map[action]()
+        if moved:
+            self.x = new_x
+            self.y = new_y
+
+    def can_move(self, action):
+        moved, _, _ = self.actions_map[action]()
+        return moved

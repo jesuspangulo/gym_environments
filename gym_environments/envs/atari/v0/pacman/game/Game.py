@@ -14,12 +14,15 @@ class Game:
             pygame.init()
             pygame.display.init()
 
-            self.render_surface = pygame.Surface((settings.VIRTUAL_WIDTH, settings.VIRTUAL_HEIGHT))
-            self.screen = pygame.display.set_mode((settings.WINDOW_WIDTH, settings.WINDOW_HEIGHT))
+            self.render_surface = pygame.Surface(
+                (settings.VIRTUAL_WIDTH, settings.VIRTUAL_HEIGHT)
+            )
+            self.screen = pygame.display.set_mode(
+                (settings.WINDOW_WIDTH, settings.WINDOW_HEIGHT)
+            )
             pygame.display.set_caption(title)
 
         self.clock = pygame.time.Clock()
-
 
     def reset(self):
         return self.scene.reset()
@@ -33,7 +36,7 @@ class Game:
         dt = self.clock.tick(fps) / 1000.0
 
         effective_action = self.scene.update(dt)
-        
+
         new_state = self.get_state()
         win = self.scene.check_win()
         lose = self.scene.check_lose()

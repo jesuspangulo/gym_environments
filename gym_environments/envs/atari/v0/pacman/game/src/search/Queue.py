@@ -23,7 +23,6 @@ class Queue:
 
     def is_empty(self):
         return self.num_items == 0
-    
+
     def is_full(self):
         return self.num_items == self.size
-

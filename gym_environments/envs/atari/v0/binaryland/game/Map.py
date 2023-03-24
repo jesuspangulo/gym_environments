@@ -9,12 +9,16 @@ class Map:
         self.cols = cols
         self.width = self.cols * settings.TILE_SIZE
         self.height = self.rows * settings.TILE_SIZE
-        self.charmap = [['' for _ in range(self.cols)] for _ in range(self.rows)]
-    
+        self.charmap = [["" for _ in range(self.cols)] for _ in range(self.rows)]
+
     def render(self, surface):
         for i in range(self.rows):
             y = i * settings.TILE_SIZE
             for j in range(self.cols):
-                x = j * settings.TILE_SIZE         
-                if self.charmap[i][j] == '#':
-                    pygame.draw.rect(surface, (144, 238, 144), pygame.Rect(x, y, settings.TILE_SIZE, settings.TILE_SIZE))
+                x = j * settings.TILE_SIZE
+                if self.charmap[i][j] == "#":
+                    pygame.draw.rect(
+                        surface,
+                        (144, 238, 144),
+                        pygame.Rect(x, y, settings.TILE_SIZE, settings.TILE_SIZE),
+                    )

@@ -7,10 +7,7 @@ from .Stack import Stack
 
 
 class PathFinder:
-    MODE_TABLE = {
-        "DepthFirst": Stack,
-        "BreadthFirst": Queue
-    }
+    MODE_TABLE = {"DepthFirst": Stack, "BreadthFirst": Queue}
 
     def __init__(self, charmap):
         """
@@ -22,35 +19,35 @@ class PathFinder:
     def __build_graph(self, charmap):
         for i in range(charmap.rows):
             for j in range(charmap.cols):
-                if charmap.charmap[i][j] == '#':
+                if charmap.charmap[i][j] == "#":
                     continue
 
                 c = (i, j)
 
-                if i > 0 and charmap.charmap[i - 1][j] != '#':
+                if i > 0 and charmap.charmap[i - 1][j] != "#":
                     u = (i - 1, j)
                     self.graph.add_arc(c, u)
 
-                if j > 1 and charmap.charmap[i][j - 1] != '#':
+                if j > 1 and charmap.charmap[i][j - 1] != "#":
                     l = (i, j - 1)
                     self.graph.add_arc(c, l)
-    
+
     def find_path(self, src, tgt, mode):
         if src not in self.graph.nodes or tgt not in self.graph.nodes:
             return Path()
 
         if src == tgt:
             return Path()
-        
+
         visited = set()
         parent = dict()
         data_structure = self.MODE_TABLE[mode](len(self.graph.nodes))
-        
+
         data_structure.add(src)
         visited.add(src)
         parent[src] = None
 
-        while (not data_structure.is_empty()):
+        while not data_structure.is_empty():
             p = data_structure.take()
 
             if p == tgt:
@@ -69,7 +66,7 @@ class PathFinder:
                 visited.add(q)
                 parent[q] = p
                 data_structure.add(q)
-    
+
         result = Path()
         result.add(tgt)
         pp = parent[tgt]
@@ -79,7 +76,7 @@ class PathFinder:
             pp = parent[pp]
 
         result.take()
-        
+
         return result
 
     def find_closest_by_pred(self, src, pred):
@@ -90,7 +87,7 @@ class PathFinder:
         queue.add(src)
         visited.add(src)
 
-        while (not queue.is_empty()):
+        while not queue.is_empty():
             p = queue.take()
 
             if pred(*p):
@@ -111,7 +108,6 @@ class PathFinder:
 
         return src
 
-    
     def render(self, surface, tile_size):
         image = pygame.Surface((tile_size, tile_size), pygame.SRCALPHA)
         image.fill((255, 69, 0, 50))

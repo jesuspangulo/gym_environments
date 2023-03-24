@@ -6,14 +6,14 @@ from src import search
 class StackTestCase(unittest.TestCase):
     def setUp(self):
         self.stack = search.Stack(5)
-    
+
     def test_empty_stack(self):
         self.assertTrue(self.stack.is_empty())
 
     def test_take_from_emtpy_stack(self):
         with self.assertRaises(RuntimeError) as ex:
             self.stack.take()
-        
+
         self.assertEqual(str(ex.exception), "Stack is empty")
 
     def test_add_elements(self):
@@ -25,9 +25,9 @@ class StackTestCase(unittest.TestCase):
 
         with self.assertRaises(RuntimeError) as ex:
             self.stack.add(i)
-        
+
         self.assertEqual(str(ex.exception), "Stack is full")
-    
+
     def test_take_element(self):
         for i in range(3):
             self.stack.add(i)
@@ -45,22 +45,21 @@ class StackTestCase(unittest.TestCase):
 
         for i in range(4):
             self.stack.add(i)
-        
-        self.assertEqual(self.stack.take(), 3)
 
+        self.assertEqual(self.stack.take(), 3)
 
 
 class QueueTestCase(unittest.TestCase):
     def setUp(self):
         self.queue = search.Queue(5)
-    
+
     def test_empty_queue(self):
         self.assertTrue(self.queue.is_empty())
 
     def test_take_from_emtpy_queue(self):
         with self.assertRaises(RuntimeError) as ex:
             self.queue.take()
-        
+
         self.assertEqual(str(ex.exception), "Queue is empty")
 
     def test_add_elements(self):
@@ -72,7 +71,7 @@ class QueueTestCase(unittest.TestCase):
 
         with self.assertRaises(RuntimeError) as ex:
             self.queue.add(i)
-        
+
         self.assertEqual(str(ex.exception), "Queue is full")
 
     def test_take_element(self):
@@ -92,5 +91,5 @@ class QueueTestCase(unittest.TestCase):
 
         for i in range(3):
             self.queue.add(i)
-        
+
         self.assertEqual(self.queue.take(), 4)

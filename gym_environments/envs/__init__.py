@@ -19,11 +19,9 @@ from gym_environments.envs.puzzles.v0.princess.princess import (
 from gym_environments.envs.puzzles.v0.blocks.blocks import (
     BlocksEnv as BlocksEnvV0,
 )
-from gym_environments.envs.atari.v0.pacman.pacman import (
-    PacmanEnv as PacmanEnvV0
-)
+from gym_environments.envs.atari.v0.pacman.pacman import PacmanEnv as PacmanEnvV0
 from gym_environments.envs.atari.v0.binaryland.binaryland import (
-    BinarylandEnv as BinarylandEnvV0
+    BinarylandEnv as BinarylandEnvV0,
 )
 
 (

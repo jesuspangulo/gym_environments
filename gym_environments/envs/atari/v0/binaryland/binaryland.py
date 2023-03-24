@@ -25,6 +25,12 @@ class BinarylandEnv(gym.Env):
         self.observation_space = spaces.Box(self.low, self.high, dtype=np.float32)
         self.action_counter = 0
 
+    def __get_state(self):
+        return np.array(self.current_state, dtype=np.float32)
+
+    def __get_info(self):
+        return self.game.get_info()
+
     def reset(self, seed=None, options=None):
         super().reset(seed=seed)
 
@@ -40,32 +46,38 @@ class BinarylandEnv(gym.Env):
         self.current_reward = 0
         self.action_counter = 0
 
-        return np.array(self.current_state, dtype=np.float32), {}
+        return self.__get_state(), self.__get_info()
 
     def step(self, action):
         self.action_counter += 1
         self.current_action = action
         self.current_state, terminated = self.game.update(action)
         truncated = False
-        
+
         d1i, d1j, d2i, d2j = self.current_state
 
         di = max(d1i, d2i)
         dj = max(d1j, d2j)
 
         if di <= 0.000001:
-            self.current_reward = -10*dj
+            self.current_reward = -10 * dj
         else:
-            self.current_reward = -50*di
+            self.current_reward = -50 * di
 
         if terminated:
             self.current_reward = 10000
         elif self.action_counter >= 50000:
             self.current_reward = -1000
             truncated = True
-               
+
         self.render()
-        return np.array(self.current_state, dtype=np.float32), self.current_reward, terminated, truncated, {}
+        return (
+            self.__get_state(),
+            self.current_reward,
+            terminated,
+            truncated,
+            self.__get_info(),
+        )
 
     def render(self):
         self.game.render()
